@@ -1,0 +1,2 @@
+type	dataMode	url	id	id2	db	designTB	mainTB	pcaTB
+main	MySQL	10.27.241.82	E7E10E14_da	B4QlhE7k	rll_data	E7E10E14V2_designTable	E7E10E14V2_bulk_rna_seq_table	E7E10E14V2_PCA
