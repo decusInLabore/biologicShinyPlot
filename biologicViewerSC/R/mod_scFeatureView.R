@@ -122,7 +122,6 @@ mod_scFeatureView_ui <- function( id , title ){
             )
           ), # End sidepanel
           mainPanel(
-              plotOutput(ns("scApp")),
               uiOutput(ns("plotsFV"))
           )
   )
@@ -276,14 +275,17 @@ mod_scFeatureView_server <- function(id){
           })
           
         })
-      }
+    }
+        
+        ## Create downloads
+        
         
     })
     
     ## Done create dynamic plots       ##
     #####################################
     
-    output$scApp <- renderPlot({plot(1:10,1:10)})
+   
  
   })
 }
