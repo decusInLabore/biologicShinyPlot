@@ -212,6 +212,8 @@ mod_scFeatureView_server <- function(id){
     
     observeEvent(reactiveValuesToList(input), {
         startUpList <- golem::get_golem_options( which = "startUpList" )
+        numCols <- startUpList$utilityList$numCols
+        
         plotList <- createDfTemp(
             startUpList = startUpList,
             gene = input$gene,
@@ -221,6 +223,7 @@ mod_scFeatureView_server <- function(id){
             y_axis = input$y_axis
         )
         
+        dfTemp <- plotList[["dfTemp"]]
         plot_data <- plotList[["plot_data"]]
         plot_data_names <- plotList[["plot_data_names"]]
         maxExpr <- plotList[["maxExpr"]]
@@ -232,6 +235,25 @@ mod_scFeatureView_server <- function(id){
         minX = dimVec[1]
         maxY = dimVec[4]
         minY = dimVec[3]
+        
+        ## Determine plot colors ##
+        if (!(input$colorBy %in% numCols )){
+            cols <- paste0("c(", paste0("input$", as.vector(dfTemp[,input$colorBy]), collapse = ", "), ")")
+            cols <- eval(parse(text = cols))
+            # To prevent errors
+            req(length(cols) == length(as.vector(dfTemp[,input$colorBy])))
+        } else {
+            cols <- NULL
+        }
+        
+        
+        
+        
+        print(cols)
+        
+        
+        
+        
     
         plotResList <- lapply(1:length(plot_data), function(i){ 
           featureViewPlot(
@@ -278,7 +300,20 @@ mod_scFeatureView_server <- function(id){
     }
         
         ## Create downloads
-        
+        output$plotDLall <- downloadHandler(
+          filename = function() {
+            randomString <- function(n = 5000) {
+              a <- do.call(paste0, replicate(1, sample(LETTERS, n, TRUE), FALSE))
+              paste0(a, sprintf("%04d", sample(9999, n, TRUE)), sample(LETTERS, n, TRUE))
+            }
+            paste0("FeatureViewPlot.",randomString(1),".pdf")
+          },
+          content = function(file) {
+            pdf(file)
+            lapply(plotResList, print)
+            dev.off()
+          }
+        )
         
     })
     
