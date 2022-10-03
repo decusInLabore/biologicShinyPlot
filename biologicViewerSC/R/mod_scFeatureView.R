@@ -234,32 +234,32 @@ mod_scFeatureView_server <- function(id){
         maxY = dimVec[4]
         minY = dimVec[3]
     
-        plotResList <- lapply(1:length(plot_data_names), function(i){ featureViewPlot(
-          df = plot_data[[i]],
-          plot_name = paste0(plot_data_names[i]), 
-          colorBy = input$colorBy,
-          dotsize = input$dotsize,
-          lowColor = input$lowColor, 
-          dotcolor = input$dotcolor,
-          background = input$background,
-          x_axis = input$x_axis,
-          y_axis = input$y_axis,
-          maxX = maxX,
-          minX = minX,
-          maxY = maxY,
-          minY = minY,
-          geneSel = input$gene,
-          maxExpr = maxExpr,
-          showPlotLegend = input$showPlotLegend
-        ) })
+        plotResList <- lapply(1:length(plot_data), function(i){ 
+          featureViewPlot(
+              df = plot_data[[i]],
+              plot_name = paste0(plot_data_names[i]), 
+              colorBy = input$colorBy,
+              dotsize = input$dotsize,
+              lowColor = input$lowColor, 
+              dotcolor = input$dotcolor,
+              background = input$background,
+              x_axis = input$x_axis,
+              y_axis = input$y_axis,
+              maxX = maxX,
+              minX = minX,
+              maxY = maxY,
+              minY = minY,
+              geneSel = input$gene,
+              maxExpr = maxExpr,
+              showPlotLegend = input$showPlotLegend
+          ) 
+          }
+        )
+        
     
     
-    
-    for (i in 1:plotResList) {
+    for (i in 1:length(plotResList)) {
       ## Create data frame for this plot
-      
-      
-      data <- mtcars
       
       # Need local so that each item gets its own number. Without it, the value
       # of i in the renderPlot() will be the same across all instances, because
@@ -270,7 +270,7 @@ mod_scFeatureView_server <- function(id){
           names(plot_data[[i]])
           
           output[[plotname]] <- renderPlot({
-            p <-ggplot2::ggplot(data = mtcars, aes(x=mpg, y=cyl))
+            p <- plotResList[i]
             
             print(p)
           })
