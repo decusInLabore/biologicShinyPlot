@@ -82,10 +82,13 @@ get_options <- function(
   return(allOptions)
 }
 
-plotScatter <- function(data = mtcars, x_axis = "mpg", y_axis="cyl"){
+plotPcaScatter <- function(data = mtcars, x_axis = "mpg", y_axis="cyl", colorBy="sample_group", colors){
+    print("Colors")
+    print(colors)
     p1 <- ggplot2::ggplot(
-        data = data, ggplot2::aes_string(x = x_axis, y = y_axis)) +
-        ggplot2::geom_point()
+        data = data, ggplot2::aes_string(x = x_axis, y = y_axis, fill = colorBy)) +
+        ggplot2::geom_point(shape =21) +
+        ggplot2::scale_fill_manual(values = colors)
     return(p1)
       
 }

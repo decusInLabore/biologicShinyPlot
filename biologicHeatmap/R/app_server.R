@@ -11,4 +11,5 @@ app_server <- function(input, output, session) {
   mod_printTable_server("printTable_1")
   mod_dev_server("dev_1", text = "test test")
   mod_biologicScatter_server("biologicScatter_1")
+  mod_pcaScatter_server("pcaScatter_1")
 }

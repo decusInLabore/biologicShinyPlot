@@ -7,6 +7,16 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
+#' 
+
+
+    
+xOptions <- get_options(tag = "contrast_", table = "mainTB")
+
+yOptions <- get_options(tag = "contrast_", table = "mainTB")
+
+
+
 mod_biologicScatter_ui <- function(id, title){
   ns <- NS(id)
   tabPanel(
@@ -16,16 +26,14 @@ mod_biologicScatter_ui <- function(id, title){
       selectizeInput(
         ns("x_axis"), 
         label = "X axis",
-        choices = colnames( mtcars ), 
-        selected = colnames( mtcars )[1], 
-        options = list(maxOptions = 50)
+        choices = xOptions[ 1 ],  
+        selected = colnames( mtcars )[1]
       ),
       selectizeInput(
         ns("y_axis"), 
         label = "Y axis",
-        choices = colnames( mtcars ), 
-        selected = colnames( mtcars )[2], 
-        options = list(maxOptions = 50)
+        choices = yOptions, 
+        selected = yOptions[ 2 ]
       )
     ),
     mainPanel(
@@ -41,8 +49,24 @@ mod_biologicScatter_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
+    dfkey <- assembleKeyList()$dfkey
+    
+    dfData <- get_data()
+    
+    # observe({
+    #     data <- get_data(
+    #       table = "mainTB",
+    #       colSel = c("gg_symbol", input$x_axis, input$y_axis)
+    #     )
+    # })
+    
     output$scatter1 <- renderPlot({
-      p1 <- plotScatter(data = mtcars, x_axis = input$x_axis, y_axis = input$y_axis)
+      data <- get_data(
+        table = "mainTB",
+        colSel = c("gg_symbol", input$x_axis, input$y_axis)
+      )
+      
+      p1 <- plotScatter(data = data, x_axis = input$x_axis, y_axis = input$y_axis)
       print(p1)
     })
  

@@ -16,6 +16,7 @@ app_ui <- function(request) {
         mod_biologicHeatmap_ui("biologicHeatmap_2", title = "Heatmap2"),
         mod_printTable_ui("printTable_1", title = "Table1"),
         mod_biologicScatter_ui("biologicScatter_1", title = "Scatter"),
+        mod_pcaScatter_ui("pcaScatter_1", title = "PCA"),
         mod_dev_ui("dev_1", title = "Dev")
         
             

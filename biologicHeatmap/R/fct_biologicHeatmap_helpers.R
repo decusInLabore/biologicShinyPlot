@@ -6,6 +6,7 @@
 #'
 #' @noRd
 plotHeatmap <- function(x_axis, y_axis){
+      f1 = circlize::colorRamp2(seq(-4, 4, length = 3), c("#3060cf", "#fffbbc","#c4463a")) 
       set.seed(123)
       mat1 = matrix(rnorm(80, 2), 8, 10)
       mat1 = rbind(mat1, matrix(rnorm(40, -2), 4, 10))
