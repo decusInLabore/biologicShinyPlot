@@ -51,7 +51,7 @@ golem::add_css_file("custom")
 # Documentation
 
 ## Vignette ----
-usethis::use_vignette("biologicHeatmap")
+usethis::use_vignette("biologicFigures")
 devtools::build_vignettes()
 
 ## Code Coverage----

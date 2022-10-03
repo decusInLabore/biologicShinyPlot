@@ -1,8 +1,8 @@
 default:
-  golem_name: biologicHeatmap
+  golem_name: biologicFigures
   golem_version: 0.0.0.9000
   app_prod: no
 production:
   app_prod: yes
 dev:
-  golem_wd: !expr here::here()
+  golem_wd: /Volumes/babs/working/boeings/projects/boeings/stefan.boeing/biologicShinyPlot/biologicFigures
