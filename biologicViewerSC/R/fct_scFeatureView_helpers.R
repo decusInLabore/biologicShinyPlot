@@ -1,18 +1,11 @@
 #' scFeatureView_helpers 
-#'
-#' @description A fct function
-#'
-#' @return The return value, if any, from executing the function.
-#'
-#' @noRd
-
 #' biologicHeatmap_helpers 
 #'
 #' @description Plot function
 #'
 #' @return The return value, if any, from executing the function.
 #'
-#' @noRd
+
 ###############################################################################
 ## Load dfCoord from db                                                      ##
 
@@ -243,13 +236,7 @@ createDfTemp <- function(
   #    dfTemp[["dotColor"]] <- dfTemp[["sampleColor"]]
   #}
   
-  inInput <- names(input)[names(input) %in% unique(dfTemp[[colorBy]])]
-  if (length(inInput) > 0){
-    for (k in 1:length(inInput)){
-      dfTemp[dfTemp[,colorBy] == inInput[k], "dotColor"] <- input[[inInput[[k]]]]
-    }
-    
-  }
+  
   
   
   ## Done                                                              ##
