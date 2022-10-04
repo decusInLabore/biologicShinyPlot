@@ -387,7 +387,8 @@ featureViewPlot <- function(
   minY = NULL,
   geneSel = NULL,
   maxExpr = NULL,
-  showPlotLegend = FALSE
+  showPlotLegend = FALSE,
+  colVec = NULL
 ) {
   if (is.null(maxX)){
     maxX <- 1.1*max(df$x_axis, na.rm = T)  
@@ -501,10 +502,11 @@ featureViewPlot <- function(
   p <- p + ggplot2::xlab(x_axis) + ggplot2::ylab(y_axis)
   
   if (colorBy %in% nonNumCols ){
-    dfCol <- unique(df[,c(colorBy, "dotColor")])
-    colVec <- dfCol$dotColor
-    names(colVec) <- as.character(dfCol[,colorBy])
-    colVec <- colVec[colVec != ""]
+    # dfCol <- unique(df[,c(colorBy, "dotColor")])
+    # colVec <- dfCol$dotColor
+    # names(colVec) <- as.character(dfCol[,colorBy])
+    # colVec <- colVec[colVec != ""]
+    ## Colvec is provided if cols are non numeric
     
     
     p <- p + ggplot2::scale_colour_manual(colorBy ,values = colVec

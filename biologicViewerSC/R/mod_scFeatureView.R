@@ -156,10 +156,10 @@ mod_scFeatureView_server <- function(id){
     observe({
       startUpList <- golem::get_golem_options(which = "startUpList")
       numCols <- startUpList$utilityList$numCols
-      print(input$colorBy)
+      
       if (!(input$colorBy %in% numCols)){
         dfColorTable <-  createColorTable(startUpList = startUpList, colorBy = input$colorBy)
-        print(dfColorTable)
+        #print(dfColorTable)
         
         nameCol <- names(dfColorTable)[1]
         nameColCol <- "dotColor"
@@ -170,7 +170,11 @@ mod_scFeatureView_server <- function(id){
         colVec <- as.vector(dfColSel[,nameColCol])
         names(colVec) <- as.vector(dfColSel[,nameCol])
         colVec <- colVec[colVec != ""]
+        
+        
         dfColSel <- dfColSel[order(dfColSel[,nameCol]),]
+        # 
+        
         
         output$clusterColorPanelNew = renderUI({
           dfColSel[["label"]] <- paste0(dfColSel[,nameCol], " ", labelID," Color" )
@@ -194,21 +198,11 @@ mod_scFeatureView_server <- function(id){
     #####################################
     ## Create dynamic plots            ##
     
-    #dynamically create the right number of htmlOutput
-    output$plotsFV <- renderUI({
-      plot_output_list <- lapply(1:5, function(i) {
-        plotname <- paste("plot", i, sep="")
-        plotOutput(ns(plotname))
-      })
-      
-      # Convert the list to a tagList - this is necessary for the list of items
-      # to display properly.
-      do.call(tagList, plot_output_list)
-    })
+    
     
     # Call renderPlot for each one. Plots are only actually generated when they
     # are visible on the web page.
-    max_plots <- 5
+   
     
     observeEvent(reactiveValuesToList(input), {
         startUpList <- golem::get_golem_options( which = "startUpList" )
@@ -236,22 +230,63 @@ mod_scFeatureView_server <- function(id){
         maxY = dimVec[4]
         minY = dimVec[3]
         
-        ## Determine plot colors ##
-        if (!(input$colorBy %in% numCols )){
-            cols <- paste0("c(", paste0("input$", as.vector(dfTemp[,input$colorBy]), collapse = ", "), ")")
-            cols <- eval(parse(text = cols))
-            # To prevent errors
-            req(length(cols) == length(as.vector(dfTemp[,input$colorBy])))
+        
+        
+        #dynamically create the right number of htmlOutput
+        output$plotsFV <- renderUI({
+          
+          
+          plot_output_list <- lapply(1:length(plot_data), function(i) {
+            plotname <- paste("plot", i, sep="")
+            plotOutput(ns(plotname))
+          })
+          
+          # Convert the list to a tagList - this is necessary for the list of items
+          # to display properly.
+          do.call(tagList, plot_output_list)
+        })
+        
+        
+        
+        
+        startUpList <- golem::get_golem_options( which = "startUpList" )
+        numCols <- startUpList$utilityList$numCols
+        
+        plotList <- createDfTemp(
+          startUpList = startUpList,
+          gene = input$gene,
+          splitByColumn = input$splitByColumn,
+          colorBy = input$colorBy,
+          x_axis = input$x_axis, 
+          y_axis = input$y_axis
+        )
+        
+        dfTemp <- plotList[["dfTemp"]]
+        
+        if (!(input$colorBy %in% numCols)){
+            dfColourSel <- unique(dfTemp[,c("dotColor", input$colorBy)])
+            dfColourSel <- dfColourSel[order(dfColourSel[[input$colorBy]]), ]
+            print(dfColourSel)
+            cols <- as.vector(dfColourSel[,"dotColor"])
+            
+            
+            inInput <- names(input)[names(input) %in% as.vector(dfColourSel[,input$colorBy])]
+            
+            
+            if (length(inInput) > 0){
+              for (k in 1:length(inInput)){
+                dfColourSel[dfColourSel[,input$colorBy] == inInput[k], "dotColor"] <- input[[inInput[[k]]]]
+              }
+              
+            }
+            
+            print(dfColourSel)
+            cols <- as.vector(dfColourSel$dotColor)
+            names(cols) <- as.vector(dfColourSel[,input$colorBy])
+            
         } else {
             cols <- NULL
         }
-        
-        
-        
-        
-        print(cols)
-        
-        
         
         
     
@@ -272,7 +307,8 @@ mod_scFeatureView_server <- function(id){
               minY = minY,
               geneSel = input$gene,
               maxExpr = maxExpr,
-              showPlotLegend = input$showPlotLegend
+              showPlotLegend = input$showPlotLegend,
+              colVec = cols
           ) 
           }
         )
