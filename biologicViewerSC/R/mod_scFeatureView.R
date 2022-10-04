@@ -315,25 +315,41 @@ mod_scFeatureView_server <- function(id){
         
     
     
-    for (i in 1:length(plot_data_names)) {
+    lapply(1:length(plot_data_names), function(i) {
       ## Create data frame for this plot
       
       # Need local so that each item gets its own number. Without it, the value
       # of i in the renderPlot() will be the same across all instances, because
       # of when the expression is evaluated.
-      local({
+      #local({
           my_i <- i
           plotname <- paste("plot", my_i, sep="")
           names(plot_data[[i]])
           
           output[[plotname]] <- renderPlot({
-            p <- plotResList[i]
-            
-            print(p)
+            featureViewPlot(
+              df = plot_data[[i]],
+              plot_name = paste0(plot_data_names[i]), 
+              colorBy = input$colorBy,
+              dotsize = input$dotsize,
+              lowColor = input$lowColor, 
+              dotcolor = input$dotcolor,
+              background = input$background,
+              x_axis = input$x_axis,
+              y_axis = input$y_axis,
+              maxX = maxX,
+              minX = minX,
+              maxY = maxY,
+              minY = minY,
+              geneSel = input$gene,
+              maxExpr = maxExpr,
+              showPlotLegend = input$showPlotLegend,
+              colVec = cols
+            ) 
           })
           
-        })
-    }
+        #})
+    }) # end lapply
         
         ## Create downloads
         output$plotDLall <- downloadHandler(
