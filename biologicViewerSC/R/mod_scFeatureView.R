@@ -264,11 +264,12 @@ mod_scFeatureView_server <- function(id){
         dfTemp <- plotList[["dfTemp"]]
         
         if (!(input$colorBy %in% numCols)){
-            dfColourSel <- unique(dfTemp[,c("dotColor", input$colorBy)])
+            dfColourSel <- createColorTable(startUpList = startUpList, colorBy = input$colorBy)
             dfColourSel <- dfColourSel[order(dfColourSel[[input$colorBy]]), ]
-            print(dfColourSel)
             cols <- as.vector(dfColourSel[,"dotColor"])
+            names(cols) <- as.vector(dfColourSel[,input$colorBy])
             
+            print(cols)
             
             inInput <- names(input)[names(input) %in% as.vector(dfColourSel[,input$colorBy])]
             
