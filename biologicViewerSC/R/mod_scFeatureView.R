@@ -236,7 +236,7 @@ mod_scFeatureView_server <- function(id){
         output$plotsFV <- renderUI({
           
           
-          plot_output_list <- lapply(1:length(plot_data), function(i) {
+          plot_output_list <- lapply(1:length(plot_data_names), function(i) {
             plotname <- paste("plot", i, sep="")
             plotOutput(ns(plotname))
           })
@@ -290,7 +290,7 @@ mod_scFeatureView_server <- function(id){
         
         
     
-        plotResList <- lapply(1:length(plot_data), function(i){ 
+        plotResList <- lapply(1:length(plot_data_names), function(i){ 
           featureViewPlot(
               df = plot_data[[i]],
               plot_name = paste0(plot_data_names[i]), 
@@ -315,7 +315,7 @@ mod_scFeatureView_server <- function(id){
         
     
     
-    for (i in 1:length(plotResList)) {
+    for (i in 1:length(plot_data_names)) {
       ## Create data frame for this plot
       
       # Need local so that each item gets its own number. Without it, the value
