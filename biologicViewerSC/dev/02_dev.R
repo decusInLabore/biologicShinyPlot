@@ -21,13 +21,11 @@ usethis::use_package( "thinkr" )
 ## Create a module infrastructure in R/
 golem::add_module( name = "FeatureViewSidebar" ) # Name of the module
 golem::add_module( name = "FeatureViewFigurePanel" ) # Name of the module
-golem::add_module( name = "scFeatureView" ) # Name of the module
 #golem::add_module( name = "name_of_module2" ) # Name of the module
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
 golem::add_fct( "helpers" ) 
-golem::add_fct( "scFeatureView_helpers" ) 
 golem::add_utils( "helpers" )
 
 ## External resources

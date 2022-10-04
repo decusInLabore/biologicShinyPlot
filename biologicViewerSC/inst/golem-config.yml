@@ -5,4 +5,4 @@ default:
 production:
   app_prod: yes
 dev:
-  golem_wd: Y:/working/boeings/projects/boeings/stefan.boeing/biologicShinyPlot/biologicViewerSC
+  golem_wd: !expr here::here()
