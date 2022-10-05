@@ -1,2 +1,0 @@
-"type"	"dataMode"	"url"	"id"	"id2"	"db"	"coordTb"	"exprTb"	"geneTb"	"default"
-"main"	"MySQL"	"10.27.241.82"	"SC22177_aUser"	"W5E2zoIf"	"chl_data"	"SC22177_PCA"	"SC22177_gene_expr_tb"	"SC22177_geneID_tb"	"Cdkn1c"
