@@ -32,14 +32,10 @@ app_ui <- function(request) {
                                                                          ##       
         ## Start new
         navbarPage(
-            "biologic SC",   
-            mod_scFeatureView_ui("scFeatureView_1", title = "FeatureView New"),
+            title = "biologic SC",   
+            mod_scFeatureView_ui("scFeatureView_1", title = "FeatureView"),
         
-            tabPanel("FeatureView", 
-                mod_FeatureViewSidebar_ui("FeatureViewSidebar_ui_1"),
-            ),
-            
-            tabPanel("About this Dataviewer", mod_about_ui("about_ui_1")),
+            mod_about_ui("about_ui_1", title = "About this Dataviewer"),
         
             navbarMenu("Settings", 
                 tabPanel("Color Setting", "Color Settings"),
